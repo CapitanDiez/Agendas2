@@ -10,6 +10,7 @@ $def with (contactos)
         <th>Segundo Apellido</th>
         <th>Email</th>
         <th>Teléfono</th>
+        <th>Acciones</th>
     </tr>
     $for contacto in contactos:
         <tr>
@@ -19,5 +20,10 @@ $def with (contactos)
             <td>$contacto['segundo_apellido']</td>
             <td>$contacto['email']</td>
             <td>$contacto['telefono']</td>
+            <td>
+                <a href="/ver_contacto/$contacto['id_contacto']">Ver</a>
+                <a href="/editar_contacto/$contacto['id_contacto']">Editar</a>
+                <a href="/borrar_contacto/$contacto['id_contacto']">Borrar</a>
+            </td>
         </tr>
 </table>

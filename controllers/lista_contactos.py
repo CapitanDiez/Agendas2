@@ -41,7 +41,8 @@ class ListaContactos:
             conn.close()
 
 
+
     def GET(self):
-        contactos=self.obtenerContactos()
+        contactos = self.obtenerContactos()
         print(contactos)
         return render.lista_contactos(contactos)
