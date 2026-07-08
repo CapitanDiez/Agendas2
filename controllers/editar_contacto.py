@@ -31,22 +31,56 @@ class EditarContacto:
         finally:
             conn.close()
 
-    def actualizarContacto(self, id_contacto, nombre, primer_apellido, segundo_apellido, email, telefono):
+    def actualizarContacto(self, contacto:dict):
         try:
-            conn = sqlite3.connect('sql/agenda.db')
+            # Conecta a la base de datos
+            conn = sqlite3.connect("sql/agenda.db")
             cursor = conn.cursor()
-            query = "UPDATE contactos SET nombre=?, primer_apellido=?, segundo_apellido=?, email=?, telefono=? WHERE id_contacto=?"
-            cursor.execute(query, (nombre, primer_apellido, segundo_apellido, email, telefono, id_contacto))
+            # Consulta los registros de la tabla contactos
+            query = """
+                UPDATE contactos
+                SET 
+                    nombre = ?,
+                    primer_apellido = ?,
+                    segundo_apellido = ?,
+                    email = ?,
+                    telefono = ?
+                WHERE id_contacto = ?;
+            """
+            datos = (
+                contacto['nombre'],
+                contacto['primer_apellido'],
+                contacto['segundo_apellido'],
+                contacto['email'],
+                contacto['telefono'],
+                contacto['id_contacto'],
+            )
+            cursor.execute(query,datos)
             conn.commit()
-            conn.close()
+            return True
         except sqlite3.Error as error:
-            print(f"ERROR editarContacto 102: {error.args}")
+            print(f"ERROR verContactos 102: {error.args}")
+            return False
         except Exception as error:
-            print(f"ERROR 103: {error.args}")
+            print(f"ERROR verContactos 103: {error.args}")
+            return False
         finally:
             conn.close()
 
     def GET(self, id_contacto):
         contacto = self.buscarContacto(id_contacto)
         return render.editar_contacto(contacto)
+
+    def POST(self, id_contacto):
+        formulario=web.input()
+        contacto={
+            "id_contacto":formulario['id_contacto'],
+            "nombre":formulario['nombre'],
+            "primer_apellido":formulario['primer_apellido'],
+            "segundo_apellido":formulario['segundo_apellido'],
+            "email":formulario['email'],
+            "telefono":formulario['telefono'],
+        }
+        resultado = self.actualizarContacto(contacto)
+        return resultado
 

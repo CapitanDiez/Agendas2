@@ -1,7 +1,7 @@
 $def with(contacto)
 <form method="POST">
     <label for="id_contacto">ID Contacto:</label>
-    <input type="text" id="id_contacto" value="$contacto['id_contacto']" readonly><br><br>
+    <input type="text" id="id_contacto" name="id_contacto" value="$contacto['id_contacto']" readonly><br><br>
 
     <label for="nombre">Nombre:</label>
     <input type="text" id="nombre" name="nombre" value="$contacto['nombre']"><br><br>
