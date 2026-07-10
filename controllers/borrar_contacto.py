@@ -38,11 +38,14 @@ class BorrarContacto:
             query = "DELETE FROM contactos WHERE id_contacto=?"
             cursor.execute(query, (id_contacto,))
             conn.commit()
+            return True
             conn.close()
         except sqlite3.Error as error:
             print(f"ERROR borrarContacto 102: {error.args}")
+            return False
         except Exception as error:
             print(f"ERROR 103: {error.args}")
+            return False
         finally:
             conn.close()
 
@@ -50,5 +53,8 @@ class BorrarContacto:
         contacto = self.buscarContacto(id_contacto)
         return render.borrar_contacto(contacto)
 
+    def POST(self, id_contacto):
+        resultado = self.eliminarContacto(id_contacto)
+        return resultado
 
         
